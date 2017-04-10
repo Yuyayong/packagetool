@@ -5,6 +5,7 @@ import java.io.File;
 import com.threey.packagetool.pojo.PackageContext;
 import com.threey.packagetool.resolver.CommitMentResolver;
 import com.threey.packagetool.resolver.SvnLogCommitMentResolver;
+import com.threey.packagetool.resolver.TortoiseSvnLogCommitMentResolver;
 import com.threey.packagetool.util.ConfigUtil;
 import com.threey.packagetool.util.FileUtil;
 import com.threey.packagetool.util.InfoUtil;
@@ -14,7 +15,8 @@ public class PackageService {
 	
 	private  CommitMentResolver commitMentResolver ;
 	public void doPakage(PackageContext context){
-		 commitMentResolver = new SvnLogCommitMentResolver(context);
+		//commitMentResolver = new SvnLogCommitMentResolver(context);
+		commitMentResolver = new TortoiseSvnLogCommitMentResolver(context);
 		clearTemp(context);
 		copyFiles(commitMentResolver.chengeToFiles(commitMentResolver.getCommitMents()),context);
 		InfoUtil.infoLn("压缩文件.....");
@@ -25,10 +27,10 @@ public class PackageService {
 		InfoUtil.infoLn("打包成功！！！！！输出文件为：");
 		InfoUtil.infoLn(context.getZipFile());
 	}
-	public void analysisLog(PackageContext context){
+	/*public void analysisLog(PackageContext context){
 		commitMentResolver = new SvnLogCommitMentResolver(context);
 		commitMentResolver.getCommitMents();
-	}
+	}*/
 	public void copyFiles(String[] files,PackageContext context){
 		FileUtil.copyFileToTemp(files,context );
 	}
